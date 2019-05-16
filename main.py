@@ -12,7 +12,8 @@ def print_menu(menu):
     print("\n\n\nMenu")
     print_line()
     for foodName in menu:
-        print("$"+str(menu[foodName][1])+" - "+menu[foodName][0])
+        print("{0: <50}".format(menu[foodName]
+                                [0]+" -- ")+"$"+str(menu[foodName][1]))
 
 
 # The menu, containing the food name, full food name to put on the menu and price
@@ -98,14 +99,27 @@ while True:
             order[food] = count
             break
 
-print(order)
 
 # Printing the receipt
-print("\n\n")
+print("\n\n\n")
 print_line()
 print("Your Order:")
 print_line()
-print("Item | Price | Quantity | Sub-Total")
+# Using the format specification thing to align text vertically https://docs.python.org/2/library/string.html#format-specification-mini-language
+print("{0: <20}".format("Item") + " | " + "{0: <11}".format("Price") + " | " +
+      "{0: <10}".format("Quantity") + " | " + "Sub-Total")
 print_line()
+total = 0
 for item in order:
-    print(item + " | $" + str(menu[item][1]) + " | " + str(order[item]) + " | $"+ str(menu[item][1]*order[item]))
+    print("{0: <20}".format(item) + " | $" + "{0: <10}".format(str(menu[item][1])) + " | " + "{0: <10}".format(
+        str(order[item])) + " | $" + "{0: <10}".format(str(menu[item][1]*order[item])))
+    # Adding up the total price
+    total += menu[item][1]*order[item]
+print_line()
+# Printing the totals
+print("{0: <60}".format("Sub-Total")+"$"+str(total))
+# Printing total with tax, rounded to 2 digits
+print("{0: <60}".format("HST(13%)")+"$"+str(round(total*0.13, 2)))
+
+
+#Choosing tip amount
