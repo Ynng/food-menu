@@ -4,7 +4,7 @@ import time
 
 
 def print_line():
-    print("--------------------------------------")
+    print("----------------------------------------------")
 
 # Printing the receipt
 
@@ -34,7 +34,7 @@ def print_receipt(menu, order, tip=-1):
     # if the tip is given, then do things about tax
     if tip > 0:
         print("{0: <50}".format(str(tip) + "% tip") +
-              "$"+str(round(final*(tip/100)), 2))
+              "$"+str(round(final*(tip/100), 2)))
         final = final*(1+(tip/100))
     if tip == 0:
         print("No tip at all :(")
@@ -69,6 +69,7 @@ def get_tip():
             print("Please enter an integer between 0 and 20!")
             continue
         else:
+            print("Processing tip....")
             return tipPercentage
 
 # Getting the amount of a food needed and modifying the order list
@@ -165,20 +166,20 @@ def cash_checkout(total):
         try:
             print_line()
             count = int(
-                input("Please enter the amount of cash you are paying"))
+                input("Please enter the amount of cash you are paying\n"))
         except:
             print_line()
             print("Please enter an integer that makes sense!")
             continue
         if count < total or count > 100000:
             print_line()
-            print("Please enter a number that is no smaller than the total cost of your meal, but not completly ridiculous("+total+"~100000)!")
+            print("Please enter a number that is no smaller than the total cost of your meal, but not completly ridiculous("+str(total)+"~100000)!")
             continue
         else:
             # Now I have the amount of cash the user is paying, I need to calculate the change.
             print_line()
             print("Succesfully paid $" + str(count) + " in cash")
-            print("Here's your change of $"str(count-total))
+            print("Here's your change of $" + str(count-total))
             print_line()
             print("Enjoy your meal :)")
             print_line()
@@ -189,18 +190,23 @@ def credit_checkout(total):
     while True:
         try:
             print_line()
-            cardType = int(
-                input("Please enter the type of credit card you have\nWe accept *Visa*, *Mastercard* and *American Express*"))
-        if checkoutVerification not in {"Visa", "Mastercard", "American Express"}:
+            cardType = input(
+                "Please enter the type of credit card you have\nWe accept *Visa*, *Mastercard* and *American Express*\n")
+        except:
             print_line()
-            print("Sorry, we don't accept that card type, please try again with a different type of card")
+            print("Hmmm.. something's wrong.... idk what happened!?!")
             continue
-        if paymentMethod == "cash":
-            print("\n\n\n")
+        if cardType not in {"Visa", "Mastercard", "American Express"}:
+            print_line()
+            print(
+                "Sorry, we don't accept that card type, please try again with a different type of card")
+            continue
+        else:
+            print("\n\n\n\n\n\n\n")
             print_line()
             print("\n")
-            input(cardType + " SECURE LOGIN\nPlease enter your pin SECURELY here:")
-            #Accepts the pin no matter what
+            input(cardType + " SECURE LOGIN\n\nFeel SAFE enter your pin SECURELY here:")
+            # Accepts the pin no matter what
             print_line()
             print("Contacting your bank....")
             time.sleep(1)
@@ -208,23 +214,25 @@ def credit_checkout(total):
             print("Processing payment....")
             time.sleep(1)
             print_line()
-            print("Succesfully paid $" + str(count) + " using a "+cardType+" Credit Card")
+            print("Succesfully paid $" + str(total) +
+                  " using a "+cardType+" Credit Card")
             print_line()
             print("Enjoy your meal :)")
             print_line()
             return
+
 
 def checkout(total):
     while True:
         print_line()
         try:
             paymentMethod = input(
-                "Please choose between *cash* and *credit card*")
+                "Please choose between *cash* and *credit card*\n")
         except:
             print_line()
             print("Hmmm.. something's wrong.... idk what happened!?!")
             continue
-        if checkoutVerification not in {"cash", "credit card"}:
+        if paymentMethod not in {"cash", "credit card"}:
             print_line()
             print("Sorry, we don't accept that payment method")
             continue
@@ -246,7 +254,7 @@ def checkout_verify(menu, order, tipPercentage):
         print_line()
         try:
             checkoutVerification = input(
-                "Please DOUBLE CHECK your order, there is NO GOING BACK after this step!\nEnter \"sure\" to continue to checkout, or\nEnter \"not yet\" to go back")
+                "Please DOUBLE CHECK your order, there is NO GOING BACK after this step!\nEnter \"sure\" to continue to checkout, or\nEnter \"not yet\" to go back\n")
         except:
             print_line()
             print("Hmmm.. something's wrong.... idk what happened!?!")
@@ -258,8 +266,8 @@ def checkout_verify(menu, order, tipPercentage):
         if checkoutVerification == "sure":
             checkout(total)
             return 1
-        if checkoutVerification == "not yet"
-        return -1
+        if checkoutVerification == "not yet":
+            return -1
 
 
 def get_action(menu, order, tipPercentage):
@@ -269,7 +277,7 @@ def get_action(menu, order, tipPercentage):
         print_receipt(menu, order, tipPercentage)
         try:
             print_line()
-            option = input("Options:\ncheckout | change order | change tip")
+            option = input("Options:\ncheckout | change order | change tip\n")
         except:
             print_line()
             print("Hmmm.. something's wrong, please enter ONE OF THE ABOVE OPTIONS")
